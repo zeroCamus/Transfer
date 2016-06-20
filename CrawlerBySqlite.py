@@ -5,12 +5,15 @@ import datetime
 import random
 import sendEmail
 import sqlite3
-flag = 1
+
 
 conn = sqlite3.connect("wikidata.db")
 cur = conn.cursor()
-cur.execute('''CREATE TABLE pages
-      (id int primary key, title text, content text)''')
+#cur.execute('''CREATE TABLE pages
+   #   (id int primary key, title text, content text)''')
+
+maxid = cur.execute("select max(id)  from pages")
+flag = list(maxid)[0][0] + 1
 
 random.seed(datetime.datetime.now())
 
@@ -24,7 +27,7 @@ def getLinks(articleUrl):
           html = urlopen("http://en.wikipedia.org"+articleUrl)
     except:
         main()
-    bsObj = BeautifulSoup(html, "html.parser")
+    bsObj = BeautifulSoup(html, "lxml")
     try:
         title = bsObj.find("h1").get_text()
         content = bsObj.find("div", {"id":"mw-content-text"}).find("p").get_text()
@@ -42,7 +45,7 @@ def getLinks(articleUrl):
         sendEmail.sendme("RESULT", "Crawler has scraped %d datas"%flag)
     return bsObj.find("div", {"id":"bodyContent"}).findAll("a", href=re.compile("^(/wiki/)((?!:).)*$"))
 
-links = getLinks("/wiki/English_cuisine")
+links = getLinks("/wiki/Pulse_generator")
 def main():
     global links
     try:
