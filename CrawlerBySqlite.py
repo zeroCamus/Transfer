@@ -45,7 +45,7 @@ def getLinks(articleUrl):
         sendEmail.sendme("RESULT", "Crawler has scraped %d datas"%flag)
     return bsObj.find("div", {"id":"bodyContent"}).findAll("a", href=re.compile("^(/wiki/)((?!:).)*$"))
 
-links = getLinks("/wiki/Pulse_generator")
+links = getLinks("/wiki/Pitchfork_Media")
 def main():
     global links
     try:
