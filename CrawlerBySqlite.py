@@ -32,20 +32,20 @@ def getLinks(articleUrl):
         title = bsObj.find("h1").get_text()
         content = bsObj.find("div", {"id":"mw-content-text"}).find("p").get_text()
     except:
-        titlelist = []
-        wro = cur.execute("SELECT * FROM pages WHERE id=%d-3" % flag)
-        for page in wro:
-            titlelist.append(page)
-        links = getLinks("/wiki/" + titlelist[0][1])
-        main()
-    
+        cur.execute("SELECT title FROM pages WHERE id=%d-3" % flag)
+        urlTitle = cur.fetchall()[0][0]
+        links = getLinks("/wiki/%s"%urlTitle)
+        main()    
     store(flag, title, content)
     flag += 1
     if(flag !=0 and flag%500 == 0):
         sendEmail.sendme("RESULT", "Crawler has scraped %d datas"%flag)
     return bsObj.find("div", {"id":"bodyContent"}).findAll("a", href=re.compile("^(/wiki/)((?!:).)*$"))
 
-links = getLinks("/wiki/Pitchfork_Media")
+
+cur.execute("SELECT title FROM pages WHERE id=%d-3" % flag)
+urlTitle = cur.fetchall()[0][0]
+links = getLinks("/wiki/%s"%urlTitle)
 def main():
     global links
     try:
