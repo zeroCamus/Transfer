@@ -9,9 +9,9 @@ import sqlite3
 
 conn = sqlite3.connect("wikidata.db")
 cur = conn.cursor()
-#cur.execute('''CREATE TABLE pages
-   #   (id int primary key, title text, content text)''')
-
+cur.execute('''CREATE TABLE pages
+      (id int primary key, title text, content text)''')
+cur.execute("INSERT INTO pages (id, title, content) VALUES (?,?,?)", (0, "Test", "Test"))
 maxid = cur.execute("select max(id)  from pages")
 flag = list(maxid)[0][0] + 1
 
@@ -39,13 +39,11 @@ def getLinks(articleUrl):
     store(flag, title, content)
     flag += 1
     if(flag !=0 and flag%500 == 0):
-        sendEmail.sendme("RESULT", "Crawler has scraped %d datas"%flag)
+        sendEmail.sendme("RESULT", "Cloud Crawler has scraped %d datas"%flag)
     return bsObj.find("div", {"id":"bodyContent"}).findAll("a", href=re.compile("^(/wiki/)((?!:).)*$"))
 
 
-cur.execute("SELECT title FROM pages WHERE id=%d-3" % flag)
-urlTitle = cur.fetchall()[0][0]
-links = getLinks("/wiki/%s"%urlTitle)
+links = getLinks("/wiki/Middle River")
 def main():
     global links
     try:
@@ -56,7 +54,7 @@ def main():
     finally:
         cur.close()
         conn.close()
-        sendEmail.sendme("RESULT", "程序挂掉了！")
+        sendEmail.sendme("RESULT", "云端程序挂掉了！")
 
 if __name__ == '__main__':
     main()
