@@ -9,9 +9,9 @@ import sqlite3
 
 conn = sqlite3.connect("wikidata.db")
 cur = conn.cursor()
-cur.execute('''CREATE TABLE pages
-      (id int primary key, title text, content text)''')
-cur.execute("INSERT INTO pages (id, title, content) VALUES (?,?,?)", (0, "Test", "Test"))
+#cur.execute('''CREATE TABLE pages
+ #     (id int primary key, title text, content text)''')
+#cur.execute("INSERT INTO pages (id, title, content) VALUES (?,?,?)", (0, "Test", "Test"))
 maxid = cur.execute("select max(id)  from pages")
 flag = list(maxid)[0][0] + 1
 
@@ -27,7 +27,7 @@ def getLinks(articleUrl):
           html = urlopen("http://en.wikipedia.org"+articleUrl)
     except:
         main()
-    bsObj = BeautifulSoup(html, "lxml")
+    bsObj = BeautifulSoup(html)
     try:
         title = bsObj.find("h1").get_text()
         content = bsObj.find("div", {"id":"mw-content-text"}).find("p").get_text()
