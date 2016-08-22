@@ -4,7 +4,6 @@ from email.mime.text import MIMEText
 def sendme(title, text):
 	title is the subject of your e-mail.
 	text is the value of your e-mail.
-	适用于Python3
 '''
 def sendme(title, text):
     msg = MIMEText(text)
