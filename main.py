@@ -34,7 +34,7 @@ def sendToMe(data_list):
 def do():
     data_list = []
     for i in range(1,6):
-        url = 'http://www.qiushibaike.com/8hr/page/%s/?s=4906081'%str(i)
+        url = 'http://www.qiushibaike.com/text/page/%s/'%str(i)
         temp_data = crawl(url)
         data_list.extend(temp_data)
     sendToMe(data_list)
