@@ -16,7 +16,7 @@ client = pymongo.MongoClient()
 db = client['MyAPP']
 
 
-name_set = set()
+
 
 def store(data_list):
     for data in data_list:
@@ -55,6 +55,7 @@ def deal_count(str):
 def crawl(url):
     soup = get_soup(url)
     area = soup.find_all("li", {"class": "union-list  nopicshow J_Mod"})
+    print(area)
     datas = []
     for part in area:
         sections = part.find_all("section", {"class": "union-list-app"})
@@ -88,6 +89,7 @@ if __name__ == "__main__":
     while True:
         col_name = time.ctime().replace(" ", "_")
         col = db[col_name]
+        name_set = set()
         run()
         time.sleep(60*60*12)
     
