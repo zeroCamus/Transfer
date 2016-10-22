@@ -12,11 +12,11 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36"}
 
 
-client = pymongo.MongoClient()
+
+
+client = pymongo.MongoClient(host="127.0.0.1",port=27018)
 db = client['MyAPP']
 
-
-name_set = set()
 
 def store(data_list):
     for data in data_list:
@@ -53,8 +53,12 @@ def deal_count(str):
     return int(count)
 
 def crawl(url):
+  
     soup = get_soup(url)
+    # print(soup)
     area = soup.find_all("li", {"class": "union-list  nopicshow J_Mod"})
+    # if area == None:
+    print(area)
     datas = []
     for part in area:
         sections = part.find_all("section", {"class": "union-list-app"})
@@ -76,6 +80,7 @@ def crawl(url):
             down_count = i['appDownCount']
             category_name = i['categoryName']
             datas.append((name, down_count, category_name))
+   
     store(datas)
 
 def run():
@@ -88,6 +93,7 @@ if __name__ == "__main__":
     while True:
         col_name = time.ctime().replace(" ", "_")
         col = db[col_name]
+        name_set= set()
         run()
         time.sleep(60*60*12)
     
