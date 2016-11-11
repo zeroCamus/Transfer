@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+<title>Manage</title>
+<form action="{{ url_for('manage') }}" method=post>
+    <dl>
+      <dd><input type=submit name=manage_action value=Flush_All_Articles>
+      <br />
+      <dd><input type=submit name=manage_action value=Flush_All_Users>
+    </dl>
+</form>
+
+{% endblock %}

@@ -57,6 +57,7 @@ def crawl(url):
   
     soup = get_soup(url)
     # print(soup)
+    # 这一行出现了问题
     area = soup.find_all("li", {"class": "union-list  nopicshow J_Mod"})
 
     print(area)
